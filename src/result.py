@@ -138,7 +138,23 @@ class Result:
         if self._result.solution is not None:
             if isinstance(self._result.solution, list):
                 if len(self._result.solution) > 0:
-                    sol = next(self._result.solution).__dict__
+                    # This is how they do it in minizinc source code
+                    sol = self._result.solution[-1].__dict__
+                    # This gave error "list is not iterable":
+                    # sol = next(self._result.solution).__dict__
             else:
                 sol = self._result.solution.__dict__
         return {**sol, **{k: v for (k, v) in self.vars}}
+
+    def solutions(self):
+        sol = [None]
+        if self._result.solution is not None:
+            if isinstance(self._result.solution, list):
+                sol = [None]*len(self._result.solution)
+                if len(self._result.solution) > 0:
+                    for i in range(len(self._result.solution)):
+                        sol[i] = self._result.solution[i].__dict__
+                        print()
+            else:
+                sol[0] = self._result.solution.__dict__
+        return sol
