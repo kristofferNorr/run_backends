@@ -154,7 +154,6 @@ class Result:
                 if len(self._result.solution) > 0:
                     for i in range(len(self._result.solution)):
                         sol[i] = self._result.solution[i].__dict__
-                        print()
             else:
                 sol[0] = self._result.solution.__dict__
         return sol
